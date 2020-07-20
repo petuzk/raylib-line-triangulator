@@ -1,5 +1,5 @@
-*.c   text diff=c
-*.h   text diff=c
+*.c   text diff=c linguist-language=c
+*.h   text diff=c linguist-language=c
 
 .gitattributes text export-ignore
 *.txt text

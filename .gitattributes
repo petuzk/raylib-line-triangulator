@@ -1,0 +1,6 @@
+*.c   text diff=c
+*.h   text diff=c
+
+.gitattributes text export-ignore
+*.txt text
+*.md  text

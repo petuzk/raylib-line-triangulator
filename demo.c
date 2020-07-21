@@ -61,7 +61,7 @@ int main() {
 	triline.points = malloc(numPointsAllocated * sizeof(Vector2));
 	// Note: triline.numPoints is set in LoadDefaultLine()
 	triline.loop = true;
-	triline.thickness = 16.0f;
+	triline.thickness = 32.0f;
 	LoadDefaultLine(&triline, halfScreen, screenHeight);
 
 	SetTargetFPS(30);  // There are no animations so no need to be 60
@@ -85,7 +85,7 @@ int main() {
 		}
 
 		if (shift && IsKeyPressed(KEY_R)) {  // Reset thickness
-			triline.thickness = 16.0f;
+			triline.thickness = 32.0f;
 			updTriLine = true;
 		}
 

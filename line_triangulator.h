@@ -103,6 +103,8 @@ void TriangulateLine(Vector2* points, int numPoints, float thickness, bool loop,
 	else if (numPoints < 2)
 		return;
 
+	thickness /= 2.0f;
+
 	Vector2 A, O, B, p1, p2;
 	int offset, reverseOrder;
 

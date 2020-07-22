@@ -38,6 +38,7 @@ typedef struct TriLine {
 	// Calculated values
 	Vector2* strip;
 	int stripLen;
+	int stripAlloc;
 } TriLine;
 
 //----------------------------------------------------------------------------------
@@ -203,18 +204,32 @@ void TriangulateLine(Vector2* points, int numPoints, float thickness, bool loop,
 // Perform triangulation
 // Call when changes are made (including initialization)
 void UpdateTriLine(TriLine* triline) {
-	int prevStripLen = triline->stripLen;
 	triline->stripLen = GetStripLength(triline->numPoints, triline->loop);
 
-	if (triline->stripLen > prevStripLen) {
-		// realloc may perform copying
+	if (triline->stripLen > triline->stripAlloc) {
+		triline->stripAlloc = triline->stripLen;
+		// realloc may perform copying which is not needed
 		RL_FREE(triline->strip);
-		triline->strip = RL_MALLOC(triline->stripLen * sizeof(Vector2));
+		triline->strip = RL_MALLOC(triline->stripAlloc * sizeof(Vector2));
 	}
 
 	if (triline->stripLen) {
 		TriangulateLine(
 			triline->points, triline->numPoints, triline->thickness, triline->loop, triline->strip);
+	}
+}
+
+// Free unused memory (TriLine.strip only grows in size when updating)
+void ShrinkTriLine(TriLine* triline) {
+	if (triline->stripLen < triline->stripAlloc) {
+		triline->stripAlloc = triline->stripLen;
+
+		if (triline->stripAlloc == 0) {
+			RL_FREE(triline->strip);
+			triline->strip = NULL;
+		} else {
+			triline->strip = RL_REALLOC(triline->strip, triline->stripAlloc * sizeof(Vector2));
+		}
 	}
 }
 

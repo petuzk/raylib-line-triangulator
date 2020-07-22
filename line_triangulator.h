@@ -170,10 +170,11 @@ void TriangulateLine(Vector2* points, int numPoints, float thickness, bool loop,
 
 		offset = 2*i;
 		reverseOrder =  // strip points order is important!
-			// line between consequent points must cross the original line
+			// line between consequent strip points must cross the original line
+			// `strip[offset-2]` is p1 from previous iteration
 			( i && DoLinesIntersect(A, O, strip[offset-2], p1)) ||
-		  // the very first point must be on the left side relative to vector b
-			(!i && CrossProduct(b, Vector2Subtract(points[numPoints-1], O)) > 0);
+			// the very first point must be on the left side relative to vector b
+			(!i && CrossProduct(b, s) > 0);
 
 		strip[offset +  reverseOrder] = p1;
 		strip[offset + !reverseOrder] = p2;

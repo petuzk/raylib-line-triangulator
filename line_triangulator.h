@@ -140,7 +140,7 @@ void TriangulateLine(Vector2* points, int numPoints, float thickness, bool loop,
 		Vector2 b = Vector2Subtract(B, O);
 
 		float len_b = Vector2Length(b);
-		float slopeDiff = a.y/a.x - b.y/b.x;
+		float slopeDiff = CrossProduct(a, b);
 
 		if (-EPSILON < slopeDiff && slopeDiff < EPSILON) {
 			// a and b are (almost) parallel so triangle AOB (almost) doesn't exist
